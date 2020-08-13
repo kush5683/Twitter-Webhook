@@ -56,7 +56,7 @@ class MyStreamListener(tweepy.StreamListener):
                 message = status.text
             print(message)
             hook.send(message)
-            hook.send(f"https://twitter.com/{status.user.screen_name}/status/{status.id}")
+            
             
             
         
