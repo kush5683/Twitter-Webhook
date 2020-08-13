@@ -48,7 +48,7 @@ async def send_tweet(message):
     
 class MyStreamListener(tweepy.StreamListener):
     def on_status(self, status):
-        if status._json['user']['id'] == 740583606775582723 and status.in_reply_to_status_id is None:
+        if status._json['user']['id'] == author and status.in_reply_to_status_id is None:
             message = status.text
             try:
                 message = status.full_text
@@ -62,7 +62,7 @@ class MyStreamListener(tweepy.StreamListener):
         
 myStreamListener = MyStreamListener()
 myStream = tweepy.Stream(auth = api.auth, listener=myStreamListener,tweet_mode='extended')
-myStream.filter(follow=["740583606775582723"],is_async=True)
+myStream.filter(follow=["399404516"],is_async=True)
 
 #399404516
 #740583606775582723
