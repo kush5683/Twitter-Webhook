@@ -48,7 +48,8 @@ async def send_tweet(message):
     
 class MyStreamListener(tweepy.StreamListener):
     def on_status(self, status):
-        if status._json['user']['id'] == author and status.in_reply_to_status_id is None:
+        #status._json['user']['id'] == author and 
+        if status.in_reply_to_status_id is None:
             message = status.text
             try:
                 message = status.full_text
