@@ -4,9 +4,6 @@ import random
 from dhooks import Webhook
 
 hook = Webhook('https://discord.com/api/webhooks/743532090024525895/Q_gCOl0ae0zoubQRukQUp-7dNZk_w38FTN4GLfnhLZpHTRedVA4SVNAoTD0U2u9m1CCM')
-print('Booted up')
-hook.send('!clear')
-hook.send('I am here')
 
 version = "Build 1.0"
 
@@ -37,22 +34,29 @@ r6 = api.get_user('Rainbow6Game')
 author = api.user_timeline(screen_name=r6.screen_name, count=100)[0]._json['user']['id']
 
 def get_tweet():
-    tweets = api.user_timeline(screen_name='Rainbow6Game', count=100, include_rts=True)
+    tweets = api.user_timeline(screen_name='Rainbow6Game', count=100)
     for tweet in tweets:
         if tweet.in_reply_to_status_id is None:
             return tweet
 
-last = get_tweet()        
+last = get_tweet()
 try:
-    hook.send(last.full_text)
+    message = last.full_text
 except:
-    hook.send(last.text)
-hook.send(f"https://twitter.com/{last.user.screen_name}/status/{last.id}")    
+    message = last.text
+hook.send(message)
+hook.send(f"https://twitter.com/{last.user.screen_name}/status/{last.id}")
     
 class MyStreamListener(tweepy.StreamListener):
+    def on_data(self, raw_data):
+        self.process_data(raw_data)
+        return True
+
+    def process_data(self, raw_data):
+        return
+
     def on_status(self, status):
-        #status._json['user']['id'] == author and 
-        if status.in_reply_to_status_id is None:
+        if status._json['user']['id'] == author and status.in_reply_to_status_id is None:
             message = status.text
             try:
                 message = status.full_text
@@ -60,8 +64,11 @@ class MyStreamListener(tweepy.StreamListener):
                 message = status.text
             print(message)
             hook.send(message)
-            hook.send(f"https://twitter.com/{message.user.screen_name}/status/{message.id}")
-            
+            hook.send(f"https://twitter.com/{status.user.screen_name}/status/{status.id}")
+
+    def on_error(self, status_code):
+        if status_code == 420:
+            return False
             
             
         
