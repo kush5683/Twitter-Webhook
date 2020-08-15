@@ -42,7 +42,11 @@ def get_tweet():
         if tweet.in_reply_to_status_id is None:
             return tweet
         
-hook.send(get_tweet())
+try:
+    hook.send(get_tweet().full_text)
+except:
+    hook.send(get_tweet().text)
+    
     
 class MyStreamListener(tweepy.StreamListener):
     def on_status(self, status):
