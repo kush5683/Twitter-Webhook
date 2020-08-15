@@ -41,12 +41,13 @@ def get_tweet():
     for tweet in tweets:
         if tweet.in_reply_to_status_id is None:
             return tweet
-        
+
+last = get_tweet()        
 try:
-    hook.send(get_tweet().full_text)
+    hook.send(last.full_text)
 except:
-    hook.send(get_tweet().text)
-    
+    hook.send(last.text)
+hook.send(f"https://twitter.com/{last.user.screen_name}/status/{last.id}")    
     
 class MyStreamListener(tweepy.StreamListener):
     def on_status(self, status):
@@ -59,6 +60,7 @@ class MyStreamListener(tweepy.StreamListener):
                 message = status.text
             print(message)
             hook.send(message)
+            hook.send(f"https://twitter.com/{message.user.screen_name}/status/{message.id}")
             
             
             
