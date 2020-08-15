@@ -37,16 +37,12 @@ r6 = api.get_user('Rainbow6Game')
 author = api.user_timeline(screen_name=r6.screen_name, count=100)[0]._json['user']['id']
 
 def get_tweet():
-    tweets = api.user_timeline(screen_name='kush5683', count=100, include_rts=False)
+    tweets = api.user_timeline(screen_name='Rainbow6Game', count=100, include_rts=True)
     for tweet in tweets:
         if tweet.in_reply_to_status_id is None:
             return tweet
-
-
-async def send_tweet(message):
-    print("here")
-    await NEWS_CHANNEL.send(message.full_text)
-    await NEWS_CHANNEL.send(f"https://twitter.com/{message.user.screen_name}/status/{message.id}")
+        
+hook.send(get_tweet())
     
 class MyStreamListener(tweepy.StreamListener):
     def on_status(self, status):
