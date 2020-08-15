@@ -4,6 +4,7 @@ import random
 from dhooks import Webhook
 
 hook = Webhook('https://discord.com/api/webhooks/743532090024525895/Q_gCOl0ae0zoubQRukQUp-7dNZk_w38FTN4GLfnhLZpHTRedVA4SVNAoTD0U2u9m1CCM')
+print('Booted up')
 hook.send('I am here')
 
 version = "Build 1.0"
